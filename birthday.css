@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to top right, #ff9a9e 0%, #fad0c4 100%);
+    overflow: hidden;
+	background-image: url('escape3.jpg');
+    background-size: cover;
+}
+
+.container {
+    text-align: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.balloons {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.balloon, .bomb {
+    width: 50px;
+    height: 70px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+.balloon {
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+}
+
+.balloon:before {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 30px;
+    background: #ccc;
+}
+
+.balloon.red { background-color: #ff4d4d; }
+.balloon.blue { background-color: #4d79ff; }
+.balloon.green { background-color: #4dff88; }
+.balloon.yellow { background-color: #ffea4d; }
+.balloon.purple { background-color: #a64dff; }
+
+.bomb {
+    background-color: black;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.bomb:before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 50%;
+}
+
+.message {
+    color: white;
+    z-index: 1;
+    position: relative;
+    margin-top: 20px;
+}
+
+.message h1 {
+    font-size: 3em;
+    margin: 0;
+}
+
+.message p {
+    font-size: 1.5em;
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Game</title>
+    <link rel="stylesheet" href="birthday.css">
+</head>
+<body>
+    <div class="container">
+        <div class="balloons">
+            <div class="balloon red"></div>
+            <div class="balloon blue"></div>
+            <div class="balloon green"></div>
+            <div class="balloon yellow"></div>
+            <div class="balloon purple"></div>
+            <div class="bomb"></div>
+            <div class="bomb"></div>
+        </div>
+        <div class="message">
+            <h1>Birthday Game</h1>
+            <p>Click on 10 balloons to get your birthday wish! Avoid the bombs!</p>
+            <p id="score">Score: 0</p>
+            <p id="timer">Time: 30s</p>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let timeLeft = 30;
+        const scoreDisplay = document.getElementById('score');
+        const timerDisplay = document.getElementById('timer');
+        const balloons = document.querySelectorAll('.balloon');
+        const bombs = document.querySelectorAll('.bomb');
+        let clickable = true;
+
+        balloons.forEach(balloon => {
+            balloon.addEventListener('click', () => {
+                if (clickable) {
+                    clickable = false;
+                    score++;
+                    scoreDisplay.textContent = `Score: ${score}`;
+                    balloon.style.display = 'none';
+                    setTimeout(() => {
+                        balloon.style.display = 'block';
+                        clickable = true;
+                    }, 1000);
+                    if (score >= 10) {
+                        alert('Happy Birthday! To my favorite Peson<3🎉🎂🎁');
+                        resetGame();
+                    }
+                }
+            });
+        });
+
+        bombs.forEach(bomb => {
+            bomb.addEventListener('click', () => {
+                alert('Game Over! You clicked a bomb.');
+                resetGame();
+            });
+        });
+
+        function countdown() {
+            const timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = `Time: ${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    if (score < 10) {
+                        alert('Time is up! Try again.');
+                        resetGame();
+                    }
+                }
+            }, 1000);
+        }
+
+        function resetGame() {
+            score = 0;
+            timeLeft = 30;
+            scoreDisplay.textContent = `Score: ${score}`;
+            timerDisplay.textContent = `Time: ${timeLeft}s`;
+            balloons.forEach(balloon => {
+                balloon.style.display = 'block';
+            });
+            bombs.forEach(bomb => {
+                bomb.style.display = 'block';
+            });
+            countdown();
+        }
+
+        function randomMovement() {
+            const elements = document.querySelectorAll('.balloon, .bomb');
+            elements.forEach(element => {
+                let speed = Math.random() * 3 + 2;
+                let directionX = (Math.random() < 0.5 ? -1 : 1) * (Math.random() * 5 + 2);
+                let directionY = (Math.random() < 0.5 ? -1 : 1) * (Math.random() * 5 + 2);
+
+                setInterval(() => {
+                    let elementStyle = getComputedStyle(element);
+                    let currentX = parseInt(elementStyle.left || 0);
+                    let currentY = parseInt(elementStyle.top || 0);
+
+                    if (currentX + directionX < 0 || currentX + directionX > window.innerWidth - 50) {
+                        directionX *= -1;
+                    }
+                    if (currentY + directionY < 0 || currentY + directionY > window.innerHeight - 70) {
+                        directionY *= -1;
+                    }
+
+                    element.style.left = currentX + directionX + 'px';
+                    element.style.top = currentY + directionY + 'px';
+                }, speed * 100);
+            });
+        }
+
+        randomMovement();
+        countdown();
+    </script>
+</body>
+</html>
